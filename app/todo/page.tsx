@@ -11,6 +11,12 @@ export default function TodoPage() {
     setDescription(e.target.value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleAddTodo();
+    }
+  };
+
   const handleAddTodo = () => {
     if (!description) return;
 
@@ -43,53 +49,49 @@ export default function TodoPage() {
   };
 
   return (
-    <main>
-      <div>
-        <h1>TODOS</h1>
+    <main className="p-4">
+      <section>
+        <h1 className="text-2xl font-bold">TODOS</h1>
         <input
-          style={{ border: "solid 1px #000 " }}
+          className="mt-4 p-1 rounded border-solid border-2 border-gray-300 outline-0 focus:border-gray-400 text-gray-400"
           value={description}
           onChange={handleChangeDescription}
+          onKeyDown={handleKeyDown}
         />
         <button
-          style={{
-            border: "solid 1px #000",
-          }}
+          className="mt-4 ml-2 rounded p-1 border-solid border-2 border-gray-400 bg-gray-300 hover:bg-gray-400 text-zinc-50"
           onClick={handleAddTodo}
         >
-          Add Todo
+          ADD
         </button>
-      </div>
-      <div>
+      </section>
+      <section className="mt-8">
         <ul>
           {todos.map((todo) => {
             const { id, description, completed } = todo;
 
             return (
-              <li key={id}>
+              <li key={id} className="mt-2 flex items-center">
                 <span>
                   <input
-                    style={{
-                      border: "solid 1px #000",
-                    }}
-                    // className={completed ? "decoration-emerald-800" : ""}
+                    className="border-solid border-2 border-gray-400 hover:cursor-pointer"
                     type="checkbox"
                     checked={completed}
                     onChange={() => handleToggleCompleteTodo(id)}
                   />
                 </span>
                 <span
-                  style={{
-                    textDecorationLine: completed ? "line-through" : "",
-                  }}
+                  className={
+                    completed
+                      ? "ml-2 decoration-2 line-through decoration-red-400 text-xl text-gray-400"
+                      : "ml-2 text-xl text-gray-400"
+                  }
                 >
                   {description}
                 </span>
                 <span>
                   <button
-                    style={{
-                      border: "solid 1px #000",
-                    }}
+                    className="ml-2 px-2 rounded border-solid border-2 border-gray-400 bg-gray-300 hover:bg-gray-400 text-cyan-50"
                     onClick={() => handleRemoveTodo(id)}
                   >
                     X
@@ -99,7 +101,7 @@ export default function TodoPage() {
             );
           })}
         </ul>
-      </div>
+      </section>
     </main>
   );
 }
